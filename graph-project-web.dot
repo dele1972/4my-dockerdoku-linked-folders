@@ -1,0 +1,68 @@
+# visualize linked (html/php/...) source folder to public folder (docker webserver container)
+# author: Dennis Lederich, 2018-10-02
+
+digraph G {
+  newrank=true;
+  fontcolor=white;
+
+  subgraph cluster_web {
+    rank=0;
+    label = "web";
+    style=rounded;
+    bgcolor="#072D55";
+    color="#072D55";
+    node [style=filled,color="#25598F"];
+    w0 -> w1;
+    w1 -> w11;
+    w0 -> w2;
+    w2 -> w21;
+    subgraph cluster_w1 {
+        fontcolor="#736E74";
+        fontsize=8;
+        label="localhost:8081";
+        style=rounded;
+        bgcolor="#052342";
+        color="#052342";
+        node [style=filled];
+        edge[style=invis];
+        w11 -> w12
+    }
+    subgraph cluster_w2 {
+        fontcolor="#736E74";
+        fontsize=8;
+        label="localhost:8082";
+        style=rounded;
+        bgcolor="#052342";
+        color="#052342";
+        node [style=filled,color="#FF9900",fillcolor="#25598F"];
+        edge[style=invis];
+        w21 -> w22
+    }
+  }
+
+  subgraph cluster_proj {
+    rank=1;
+    label = "project";
+    style=rounded;
+    bgcolor="#5C660A";
+    color="#5C660A";
+    node [style=filled,color="#6D7A00"];
+    p0 -> p1;
+    p0 -> p2;
+  }
+  p2 -> w22 [label="linked",color="#FF9900",fontsize=8,fontcolor="#2C2A2D"];
+
+  w0 [label="my containers", shape="folder"];
+  w1 [label="web-1", shape="folder"];
+  w11 [label="docker", shape="folder"];
+  w12 [label="public", shape="folder"];
+
+  w2 [label="web-2", shape="folder"];
+  w21 [label="docker", shape="folder"];
+  w22 [label="public", shape="folder"];
+
+  p0 [label="source", shape="folder"];
+  p1 [label="project_1", shape="folder"];
+
+  p2 [label="project_2", shape="folder", color="#FF9900"];
+}
